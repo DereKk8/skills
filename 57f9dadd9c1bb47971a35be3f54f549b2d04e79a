@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "summary": "Seeds the canonical flat skill catalog from configs 47e896a and adds catalog checks that catch unversioned, mis-routed, and symlinked skill changes.",
+  "files": [
+    {
+      "path": "scripts/check-skills.sh",
+      "summary": "Checks the flat layout, names, version lines, version rises, and path rules for committed and pending edits.",
+      "annotations": [
+        {
+          "newRange": [
+            1,
+            82
+          ],
+          "summary": "check-skills.sh compares changes and baseline versions against the merge base of BASE and HEAD.",
+          "rationale": "Because a base that advanced alone no longer counts as a change, a valid divergent feature passes. Verified: the divergent regression fails on 7280638 and passes on 57f9dad. Not verified: CI, which GitHub billing blocks.",
+          "author": "fm/skills-seed"
+        },
+        {
+          "newRange": [
+            14,
+            14
+          ],
+          "summary": "fork is the merge base of BASE and HEAD, computed once for every version lookup.",
+          "rationale": "Using the base tip here would compare against main changes made after the fork. Verified on a fresh clone of 57f9dad with BASE=origin/main.",
+          "author": "fm/skills-seed"
+        },
+        {
+          "newRange": [
+            66,
+            68
+          ],
+          "summary": "The layout loop reads every entry under skills/ with find, so dot-prefixed folders get the same checks.",
+          "rationale": "The old shell glob skipped names that begin with two dots, so an invalid tracked ..hidden folder passed. Verified: the double-dot regression fails on 7280638 and passes on 57f9dad.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "tests/check-skills.test.py",
+      "summary": "Runs check-skills.sh against small git fixtures for version, symlink, runtime-folder, and route rules.",
+      "annotations": [
+        {
+          "newRange": [
+            70,
+            84
+          ],
+          "summary": "The divergent-branch test advances main and bumps a disjoint skill on a feature branch.",
+          "rationale": "The feature passes only when the check uses the fork point. Verified: the test fails on 7280638 and passes on 57f9dad.",
+          "author": "fm/skills-seed"
+        },
+        {
+          "newRange": [
+            97,
+            104
+          ],
+          "summary": "The double-dot test commits a tracked ..hidden folder without SKILL.md and expects refusal.",
+          "rationale": "Before the find-based loop, the folder was never checked. Verified: the test fails on 7280638 and passes on 57f9dad.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "tests/skill-evidence.test.py",
+      "summary": "Tests the write-a-skill scripts through their CLIs, including flat-layout probe discovery.",
+      "annotations": [
+        {
+          "newRange": [
+            128,
+            134
+          ],
+          "summary": "The new probe test links ~/.agents/skills to the flat skills root and expects no missing-probes error.",
+          "rationale": "The old glob looked for <category>/<skill>, so this test fails on 3f31858 with a missing probes.json error. Verified: it passes on 7280638. Not verified: a real model probe run, because it spends quota.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "skills/write-a-skill/scripts/probe.py",
+      "summary": "Finds an installed skill's probes.json at <skills root>/<skill>/probes.json.",
+      "annotations": [
+        {
+          "newRange": [
+            69,
+            73
+          ],
+          "summary": "find_probes reads the flat skill folder and reports the exact missing path.",
+          "rationale": "The category glob found nothing in the flat layout, so the default probe command exited 2 before any model call. Verified: the flat-layout test passes. Not verified: a live probe run.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "skills/run-pipeline/SKILL.md",
+      "summary": "Points the no-mistakes reference at the flat folder.",
+      "annotations": [
+        {
+          "newRange": [
+            9,
+            9
+          ],
+          "summary": "The reference now names ~/.agents/skills/no-mistakes/SKILL.md, which exists in the flat catalog.",
+          "rationale": "The old engineering path no longer exists, so a reader following it found nothing. Verified: the route rule in check-skills.sh finds no category route on the head.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "skills/task-board/SKILL.md",
+      "summary": "Points the linear-graphql reference at the flat folder.",
+      "annotations": [
+        {
+          "newRange": [
+            55,
+            55
+          ],
+          "summary": "The auth reference now names ~/.agents/skills/linear-graphql/SKILL.md.",
+          "rationale": "The old tools path no longer exists. Verified: the route rule in check-skills.sh finds no category route on the head.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "skills/linear-graphql/SKILL.md",
+      "summary": "Names the task-board skill by its flat folder name.",
+      "annotations": [
+        {
+          "newRange": [
+            11,
+            11
+          ],
+          "summary": "The task-board load instruction now names task-board, the flat folder.",
+          "rationale": "The old meta path no longer exists. Verified: the route rule in check-skills.sh finds no category route on the head.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "skills/global-skill-sync/SKILL.md",
+      "summary": "Rewrites the sync protocol for the canonical flat repo checked out at ~/projects/skills.",
+      "annotations": [
+        {
+          "newRange": [
+            1,
+            54
+          ],
+          "summary": "global-skill-sync sends the pre-commit check to BASE=HEAD and points runtime links at ~/projects/skills/skills.",
+          "rationale": "Runtime links still point at configs until configs step 4a lands, so runtime text describes the target state. Verified: the check passes on the head. Not verified: readlink output on a live machine.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "summary": "Runs the catalog check and both Python test files on every PR and push to main.",
+      "annotations": [
+        {
+          "newRange": [
+            1,
+            22
+          ],
+          "summary": "CI sets BASE to origin/<base branch> and runs both test files after the catalog check.",
+          "rationale": "Checkout uses fetch-depth 0, so origin/main exists for the version-rise check. Verified locally: the same commands pass on a fresh clone. Not verified: a CI run, which GitHub billing blocks.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    }
+  ]
+}

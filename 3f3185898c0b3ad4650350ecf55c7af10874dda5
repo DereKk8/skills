@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "summary": "Replaces the stale skill catalog with the 37 flat, versioned skills from the configs repo at 47e896a.",
+  "files": [
+    {
+      "path": "scripts/check-skills.sh",
+      "summary": "Enforces the flat layout, frontmatter names, version lines, version rises, and the configs path rule.",
+      "annotations": [
+        {
+          "newRange": [1, 68],
+          "summary": "check-skills.sh fails a changed skill whose version does not rise above the BASE ref version.",
+          "rationale": "A skill absent from BASE counts as 0.0.0, so the seed PR passes. Verified: BASE=origin/main scripts/check-skills.sh exits 0 on this commit. Not verified: a negative case that catches a skipped bump, which needs a fixture commit.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "scripts/update-pstack.sh",
+      "summary": "Re-syncs the six vendored pstack skills and the MIT license from one upstream revision.",
+      "annotations": [
+        {
+          "newRange": [1, 60],
+          "summary": "update-pstack.sh copies upstream skills into skills/ and rewrites the pin in VENDORED.md.",
+          "rationale": "The script replaces each vendored directory whole, so a local deviation is lost unless re-applied. Its sed targets the Commit SHA line in VENDORED.md, so that file must keep that format. Not verified: a live run against cursor/plugins, which this seed did not perform.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "VENDORED.md",
+      "summary": "Records the pstack pin, its local attack-scenarios deviation, and the no-mistakes tag.",
+      "annotations": [
+        {
+          "newRange": [1, 32],
+          "summary": "VENDORED.md lists the vendored names that let check-skills.sh accept a skill with no version line.",
+          "rationale": "Vendored skills keep upstream bytes, so a missing version line is valid only when the name is listed here. If a name is missing, check-skills.sh fails that skill, so each vendored folder needs an entry.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "skills/global-skill-sync/SKILL.md",
+      "summary": "Rewrites the sync protocol for the canonical flat repo checked out at ~/projects/skills.",
+      "annotations": [
+        {
+          "newRange": [1, 54],
+          "summary": "global-skill-sync sends every runtime link to ~/projects/skills/skills and drops category folders.",
+          "rationale": "Runtime links still point at configs until configs step 4a lands, so this text describes the target state, not the live state. Verified by grep: no configs/skills or category path remains in any skill. Not verified: readlink output on a live machine.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "skills/poteto-mode/SKILL.md",
+      "summary": "Routes the poteto-mode stages to the flat ~/.agents/skills aliases instead of configs paths.",
+      "annotations": [
+        {
+          "newRange": [20, 21],
+          "summary": "Two principle links now resolve through ~/.agents/skills, not the configs skills tree.",
+          "rationale": "The configs tree is removed in step 4b, so these paths would break. Verified by grep: no configs/skills string remains in tracked files.",
+          "author": "fm/skills-seed"
+        },
+        {
+          "newRange": [33, 35],
+          "summary": "Verification stage now runs the link script from poteto-mode/scripts, not from pstack.",
+          "rationale": "The script moved into this skill's folder because poteto-mode is its only caller. The script content is unchanged, so the run command is the only edit.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "skills/run-pipeline/SKILL.md",
+      "summary": "Points the rebase-guard command at the flat run-pipeline folder.",
+      "annotations": [
+        {
+          "newRange": [25, 25],
+          "summary": "The rebase-guard command now runs from ~/.agents/skills/run-pipeline.",
+          "rationale": "The script moved with the flat folder, so the old configs engineering path would fail. Not verified: running the command on a live machine.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "skills/write-a-skill/scripts/probe.py",
+      "summary": "Sets the probe skills root to the ~/.agents/skills alias.",
+      "annotations": [
+        {
+          "newRange": [27, 27],
+          "summary": "SKILLS_ROOT now resolves to ~/.agents/skills, the flat alias every runtime reads.",
+          "rationale": "The old configs/skills root no longer has skill folders after step 4b. Not verified: a live probe run, because it spends model quota. The skill-evidence test passes, but it does not cover this default.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": "tests/skill-evidence.test.py",
+      "summary": "Points the test at the flat write-a-skill scripts folder.",
+      "annotations": [
+        {
+          "newRange": [11, 11],
+          "summary": "SCRIPTS now resolves to skills/write-a-skill/scripts in the flat layout.",
+          "rationale": "The category path skills/meta/... no longer exists, so the old path would fail the import. Verified: python3 tests/skill-evidence.test.py runs 7 tests and passes.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "summary": "Runs the skill checks and the skill-evidence test on every PR and push to main.",
+      "annotations": [
+        {
+          "newRange": [1, 20],
+          "summary": "CI sets BASE to origin/<base branch> so check-skills.sh compares against the PR base.",
+          "rationale": "Checkout needs fetch-depth 0, or origin/main is missing and the version-rise check cannot run. Not verified: the CI run itself, which has not started yet.",
+          "author": "fm/skills-seed"
+        }
+      ]
+    }
+  ]
+}

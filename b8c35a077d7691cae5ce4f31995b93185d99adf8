@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "summary": "Removes private project, workspace, profile, and link names from the global skills so the catalog can be published.",
+  "files": [
+    {
+      "path": "skills/global-skill-sync/SKILL.md",
+      "summary": "Owns the new private overlay rule and the corrected project link layout.",
+      "annotations": [
+        {
+          "newRange": [24, 26],
+          "summary": "Section 2 drops the oulow/ and pred/ names and adds the overlays/<skill-name>.md rule for private details.",
+          "rationale": "A public skill cannot name private projects, so it reads a private file at a fixed path instead. The old text described one family-folder link, but project-skills README and ~/work/oulow/.agents/skills show flat per-skill links, so the text now matches. Verified with ls -la ~/work/oulow/.agents/skills.",
+          "author": "fm/skills-public-cleanup"
+        }
+      ]
+    },
+    {
+      "path": "skills/secrets/SKILL.md",
+      "summary": "Routes project profile choice to the private agent-access contract.",
+      "annotations": [
+        {
+          "newRange": [19, 26],
+          "summary": "The skill now tells project builders to read ~/configs/docs/agent-access.md for their project's profile, instead of naming oulow-test.",
+          "rationale": "agent-access.md already owns the project-to-profile map, so one owner keeps it. Because an older probe failed 0/3 before the profile was named, the project probe was rerun: 3/3 passes plus 3/3 on other private probes (~/.local/state/skill-evidence/probes/secrets/20261020T*).",
+          "author": "fm/skills-public-cleanup"
+        }
+      ]
+    },
+    {
+      "path": "skills/notion-workspaces/SKILL.md",
+      "summary": "Reads the workspace map from a private overlay.",
+      "annotations": [
+        {
+          "newRange": [16, 20],
+          "summary": "The workspace table moved to ~/projects/project-skills/overlays/notion-workspaces.md, which the skill reads first.",
+          "rationale": "If the overlay is missing, the skill asks which workspace the user means, so a merge before the overlay lands is safe but loses automatic routing. Probes with the overlay at a scratch path passed 4/4; the real path is unverified until project-skills receives the file.",
+          "author": "fm/skills-public-cleanup"
+        }
+      ]
+    },
+    {
+      "path": "skills/linear-graphql/references/presentation.md",
+      "summary": "Replaces real Linear and GitHub links in examples with a fictional acme workspace.",
+      "annotations": [
+        {
+          "newRange": [195, 195],
+          "summary": "The example projectId is now a placeholder instead of a real Linear project UUID.",
+          "rationale": "The UUID identified a real private project, so an example placeholder keeps the recipe without exposing it.",
+          "author": "fm/skills-public-cleanup"
+        }
+      ]
+    }
+  ]
+}

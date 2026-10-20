@@ -1,0 +1,4 @@
+.system/
+synced/
+__pycache__/
+.skill-lock.json

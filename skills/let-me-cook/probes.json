@@ -1,0 +1,34 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "/let-me-cook",
+      "why": "The captain's entry point is the explicit /let-me-cook command."
+    },
+    {
+      "expect": "load",
+      "prompt": "/skill:let-me-cook",
+      "why": "Pi exposes the same explicit command as /skill:let-me-cook."
+    },
+    {
+      "expect": "skip",
+      "prompt": "How much quota do I have left, and which model should I use?",
+      "why": "A quota question belongs to quota-axi. This command must not load for it."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Look at my recent agent sessions and tell me what I should improve.",
+      "why": "A usage review is the topic, but it is not an invocation. The command must not start on its own."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Improve the ponder skill so it keeps the parked list.",
+      "why": "Editing a skill belongs to write-a-skill, not this command."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Write a Python function that parses an ISO 8601 date string and returns a datetime.",
+      "why": "Ordinary code. The word write must not pull the command in."
+    }
+  ]
+}

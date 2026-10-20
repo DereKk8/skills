@@ -1,0 +1,22 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check skill catalog
+        env:
+          BASE: origin/${{ github.base_ref || 'main' }}
+        run: scripts/check-skills.sh
+      - name: Test catalog checks and write-a-skill scripts
+        run: |
+          python3 tests/check-skills.test.py
+          python3 tests/skill-evidence.test.py

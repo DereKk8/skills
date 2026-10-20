@@ -1,0 +1,50 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "Please create a global user skill from this instruction: 'before you start any task, restate its acceptance criteria in one sentence'. Format it to match the structure our coding harnesses expect.",
+      "why": "2026-09-29 pi: a request to create a global skill loaded global-skill-sync, not write-a-skill, and Derek then had to cut the long body it wrote. The original wording now hits the existing goals skill, so this probe uses a new instruction."
+    },
+    {
+      "expect": "load",
+      "prompt": "The goals skill's description is what the model sees when it decides to load the skill. Rewrite that description so it matches what the body is for, and cut the body down to the same length.",
+      "why": "2026-09-29 pi: three corrections in a row on the goals skill; write-a-skill never loaded."
+    },
+    {
+      "expect": "load",
+      "prompt": "Remove anything in the explain skill that makes it fire task board creation. That part is stale and will not work anymore.",
+      "why": "2026-09-26 pi: a skill edit that loaded explain and updatefirstmate, not write-a-skill."
+    },
+    {
+      "expect": "load",
+      "prompt": "Hunk, the diff viewer, was updated. Check the hunk-review skill so agents use hunk the right way from now on.",
+      "why": "2026-10-01 pi: global-skill-sync and hunk-review loaded, write-a-skill did not."
+    },
+    {
+      "expect": "load",
+      "prompt": "Agents keep getting the refit changelog report structure wrong. Create a dedicated skill for that report template so I can invoke it manually.",
+      "why": "2026-09-26 pi: a repeated correction that became a new skill without write-a-skill."
+    },
+    {
+      "expect": "load",
+      "prompt": "Improve my ponder skill. It does not always keep the parked list.",
+      "look_for": "history\\.py|transcript|correction",
+      "why": "2026-10-08 Derek: the first step of any skill change is to find where the skill failed in past transcripts."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Use the grill-to-intent skill on this idea: an app that tracks my plants.",
+      "why": "Using a skill is not writing one."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Where are my global agent skills stored on this machine, and how do they get linked into each agent runtime?",
+      "why": "Storage and sync belong to global-skill-sync."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Write a Python function that parses an ISO 8601 date string and returns a datetime.",
+      "why": "Ordinary code; the word 'write' must not pull the skill in."
+    }
+  ]
+}

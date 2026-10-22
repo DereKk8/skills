@@ -15,7 +15,7 @@ License: `LICENSES/pstack-MIT.txt` (MIT, copyright (c) 2026 Lauren Tan)
 - `principle-sequence-verifiable-units`
 - `principle-test-behavior-not-implementation`
 
-Local deviation, recorded so a re-sync can re-apply it. It changed `create-verification-skill/` (SKILL.md and `references/feature-map-example/`) and `maintain-verification-skill/SKILL.md`. Create adds an `Attack scenarios` H2 to each feature file and a `Report` section to the generated skill. Maintain checks for that section and runs its scenarios. All other vendored files match the pin. Re-applied over upstream d457567 (pstack 0.15.28) on 2026-10-19: upstream's seed-data and stand-in sentences from cursor/plugins#573 are kept inside the deviated paragraphs of `create-verification-skill/SKILL.md`.
+Local deviation, recorded so a re-sync can re-apply it. It changed `create-verification-skill/` (SKILL.md and `references/feature-map-example/`) and `maintain-verification-skill/SKILL.md`. Create adds an `Attack scenarios` H2 to each feature file and a `Report` section to the generated skill. Maintain checks for that section and runs its scenarios. All other vendored files match the pin. Re-applied over upstream d457567 (pstack 0.15.28) on 2026-10-22: upstream's seed-data and stand-in sentences from cursor/plugins#573 are kept inside the deviated paragraphs of `create-verification-skill/SKILL.md`.
 
 `poteto-mode` is not vendored. Upstream's `pstack/skills/poteto-mode/` is a broad methodology skill. This repo's `skills/poteto-mode/` is a routing skill with the same name and different content.
 

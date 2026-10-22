@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "summary": "Syncs vendored pstack skills to cursor/plugins commit d457567 while preserving local deviations.",
+  "files": [
+    {
+      "path": "VENDORED.md",
+      "summary": "Updates the pstack commit pin and documents retention of local deviations over upstream d457567.",
+      "annotations": [
+        {
+          "newRange": [
+            7,
+            8
+          ],
+          "summary": "VENDORED.md updates the pstack commit pin to d457567 and commit date to 2026-10-19T05:35:26Z.",
+          "rationale": "Because upstream pstack bumped to 0.15.28 at commit d457567, so the catalog pin must match. Verified with scripts/check-skills.sh and git diff against upstream. Unverified: upstream runtime behavior outside this catalog.",
+          "author": "fm/skills-pstack-sync"
+        },
+        {
+          "newRange": [
+            18,
+            18
+          ],
+          "summary": "VENDORED.md notes that the Attack scenarios deviation was re-applied over upstream commit d457567 on 2026-10-22.",
+          "rationale": "Because local verification skills require Attack scenarios while upstream added seed-data and stand-in sentences, so the 2026-10-22 resolution is documented. Verified with scripts/check-skills.sh.",
+          "author": "fm/skills-pstack-sync"
+        }
+      ]
+    },
+    {
+      "path": "skills/create-verification-skill/SKILL.md",
+      "summary": "Integrates upstream seed-data and stand-in sentences while preserving local Attack scenarios sections.",
+      "annotations": [
+        {
+          "newRange": [
+            27,
+            27
+          ],
+          "summary": "create-verification-skill clarifies Launch must reach a usable state including migrations and seed data.",
+          "rationale": "Because upstream cursor/plugins#573 requires usable state from empty data dirs, so verification catches incomplete database initializations. Verified against upstream commit d457567.",
+          "author": "fm/skills-pstack-sync"
+        },
+        {
+          "newRange": [
+            37,
+            37
+          ],
+          "summary": "create-verification-skill adds seed-data failure reporting to Gotchas while keeping the Attack scenarios heading.",
+          "rationale": "Because missing preconditions must fail the journey rather than weaken it, so verification integrity is preserved alongside local attack scenarios. Verified by running tests/skill-evidence.test.py.",
+          "author": "fm/skills-pstack-sync"
+        },
+        {
+          "newRange": [
+            43,
+            43
+          ],
+          "summary": "create-verification-skill appends stand-in setup verification requirements to the end of section 4.",
+          "rationale": "Because proving in a stand-in leaves target-specific steps unverified, so stand-in steps must be recorded. Verified with scripts/check-skills.sh.",
+          "author": "fm/skills-pstack-sync"
+        }
+      ]
+    },
+    {
+      "path": "skills/principle-test-behavior-not-implementation/SKILL.md",
+      "summary": "Fast-forwards test-behavior-not-implementation to upstream cursor/plugins d457567.",
+      "annotations": [
+        {
+          "newRange": [
+            3,
+            3
+          ],
+          "summary": "principle-test-behavior-not-implementation updates description to focus on contract breaks and internal restructuring.",
+          "rationale": "Because upstream cursor/plugins#538 and #633 reframed the principle around two imagined edits, so frontmatter reflects that framing. Verified byte-for-byte against upstream pin.",
+          "author": "fm/skills-pstack-sync"
+        },
+        {
+          "newRange": [
+            9,
+            9
+          ],
+          "summary": "principle-test-behavior-not-implementation defines behavior through user observable outcomes versus unobservable internals.",
+          "rationale": "Because users observe return values, errors, and external effects rather than private methods, so the core definition guides test writing. Verified with scripts/check-skills.sh.",
+          "author": "fm/skills-pstack-sync"
+        }
+      ]
+    }
+  ]
+}

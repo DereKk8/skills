@@ -8,7 +8,7 @@ metadata:
     tags: [notion, notes, docs, databases, knowledge-base]
     category: productivity
 ---
-Skill version: 2.0.0
+Skill version: 2.1.0
 
 # notion-axi
 Ergonomic Notion CLI. Prefer over MCP/raw API. Use the installed `notion-axi`
@@ -23,7 +23,7 @@ available; handle it gracefully.
 
 Use for: search, page read/create/update/archive/move, DB schema/rows, blocks, comments, files, raw API.
 
-Workflow: bare call = recent pages/DBs. `search <q>` → note `id`. `page view <id>` (preview ~1500 chars; `--full` for all). `db view <id>` schema; `db query <id>` rows (title+3 cols; `--full`, `--limit <n>`); server-side `--where Name=value` (repeatable, schema-typed) or raw `--filter <json>` (mutually exclusive), `--sort F:asc|desc` (repeatable), `--cursor <c>` (`next_cursor`/`has_more`). `db create --parent <page> --title <n> --prop Name:type`; `db edit <id> --add/--remove Name[:type]`. `page create --parent <id> --title <t>` (`--db` for row, `--content <md>`, `--set Name=value` repeatable). `page update <id>` (`--append/--replace` body or `--*-file`, `--set` props). `page archive <id>` (`--restore` undo, idempotent); `page move <id> --to <parent>`; `block list/delete`; `comments list/add/delete`; `users get`; `whoami` (token identity). `file upload <path> [--attach <page>]` (single-part multipart). `api <method> <path> [--body <json>]` escape hatch. Follow `help:` hints.
+Workflow: bare call = recent pages/DBs. `search <q>` → note `id`. `page view <id>` (preview ~1500 chars; `--full` for all). `db view <id>` schema; `db query <id>` rows (title+3 cols; `--full`, `--limit <n>`); server-side `--where Name=value` (repeatable, schema-typed) or raw `--filter <json>` (mutually exclusive), `--sort F:asc|desc` (repeatable), `--cursor <c>` (`next_cursor`/`has_more`). `db create --parent <page> --title <n> --prop Name:type`; `db edit <id> --add/--remove Name[:type]`. `page create --parent <id> --title <t>` (`--db` for row, `--content <md>`, `--set Name=value` repeatable). `page update <id>` (`--append/--replace` body or `--*-file`, `--set` props). `page archive <id>` (`--restore` undo, idempotent); `page move <id> --to <parent>`; `block list/delete`; `comments list/add/delete`; `users get`; `whoami` (token identity). `file upload <path> [--attach <page>]` (single-part multipart). `api <method> <path> [--body <json>]` escape hatch: prefix raw paths with `v1/` (e.g. `notion-axi api v1/users/me` or `notion-axi api post v1/search --body '{...}'`); CLI help examples omit `v1/` and fail with HTTP 400 `invalid_request_url` on notion-axi 2.1.0. Block append rejects an `after` field; the working form is `position.after_block`. Follow `help:` hints.
 
 Commands: `(none)=home, search, page, db, block, users, comments, whoami, file, api, setup`; page: view/create/update/archive/move; db: view/query/create/edit; block: list/delete; users: list/get; comments: list/add/delete; file: upload. `--help` globally/per command.
 

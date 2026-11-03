@@ -2,6 +2,7 @@
 """Exercise write-a-skill's history and probe scripts through their CLIs."""
 import json
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -154,6 +155,13 @@ class ProbeTest(unittest.TestCase):
     def test_draft_replaces_only_the_probed_skill(self):
         out = self.probe([{"prompt": "LOAD", "expect": "load", "look_for": "draft-demo"}],
                          "--draft", str(self.draft), "--label", "after")
+        self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
+        self.assertIn("passed: 1/1", out.stdout)
+
+    def test_draft_of_a_skill_that_is_not_installed_yet(self):
+        shutil.rmtree(self.root / "config/skills/demo")
+        out = self.probe([{"prompt": "LOAD", "expect": "load", "look_for": "draft-demo"}],
+                         "--draft", str(self.draft))
         self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
         self.assertIn("passed: 1/1", out.stdout)
 

@@ -2,7 +2,7 @@
 name: write-a-skill
 description: Write, revise, shorten, fix, or audit a skill, an instruction file, or a worker prompt the user owns, starting from evidence in past transcripts, and show that the change improves agent behavior. Use whenever the user asks to create a skill (global or project), change what a skill says or when it loads, remove a stale part, check a skill after its tool changed, turn a repeated correction into a skill, or improve the prompt variables file. Load it together with global-skill-sync, which covers only where skills live.
 ---
-Skill version: 1.0.4
+Skill version: 1.0.5
 
 A skill earns its place when agents behave better with it than without it. I want skill text that states the intent and leaves the model room to reach it its own way, unless the skill describes a fixed workflow. Every change starts from evidence of how the skill behaves today and ends with evidence that the change helped.
 

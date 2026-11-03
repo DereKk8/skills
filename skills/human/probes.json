@@ -1,0 +1,24 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "Write me a short note for my team about why we moved CI off GitHub Actions, and make it read like a human wrote it, not an AI.",
+      "why": "2026-09-27: the owner asked five times to rebuild C4 diagrams so they 'don't look AI generated - too much text, hard to read for operators lacking context'."
+    },
+    {
+      "expect": "load",
+      "prompt": "Rewrite this paragraph in a natural human style with no AI bloat: 'In today's fast-paced landscape, it is pivotal to leverage robust tooling that serves as a testament to our commitment to excellence.'",
+      "why": "2026-10-14: 'agents are really poor at formatting text that is put for human-facing orientation'."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Restate your last message in plain words, bro.",
+      "why": "Near topic: the bro skill owns restating the last message."
+    },
+    {
+      "expect": "skip",
+      "prompt": "List the files in this directory and tell me how many there are.",
+      "why": "A plain task with no writing-style request must not load a style skill."
+    }
+  ]
+}

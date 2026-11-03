@@ -61,6 +61,9 @@ def overlay_config(skill, skill_dir, config_dir, dest):
                 mirror(child.resolve(), target, depth + 1)
             else:
                 target.symlink_to(child.resolve())
+        # A new skill has no installed folder to swap, so add the draft beside the others.
+        if depth == 1 and not (out / skill).exists():
+            (out / skill).symlink_to(Path(skill_dir).resolve())
 
     mirror((config_dir / "skills").resolve(), dest / "skills", 1)
     return dest

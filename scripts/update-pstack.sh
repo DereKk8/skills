@@ -21,7 +21,6 @@ skills=(
   principle-prove-it-works
   principle-test-behavior-not-implementation
   principle-sequence-verifiable-units
-  bro
 )
 
 tmp="$(mktemp -d)"

@@ -4,8 +4,8 @@ Vendored skills keep their upstream bytes, so they carry no `Skill version:` lin
 
 ## pstack verification skills
 
-Commit SHA: d457567332aa6989e753ea289f30ea2bfbc80bc0
-Commit date: 2026-10-19T05:35:26Z
+Commit SHA: 0b46ec399d55f2829e88822998f53b84944837d3
+Commit date: 2026-11-19T22:12:08Z
 Upstream: https://github.com/cursor/plugins (path `pstack/skills/`)
 License: `LICENSES/pstack-MIT.txt` (MIT, copyright (c) 2026 Lauren Tan)
 

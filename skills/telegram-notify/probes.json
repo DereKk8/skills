@@ -1,0 +1,33 @@
+{
+  "probes": [
+    {
+      "prompt": "Dry-run replay: do not send anything. State the exact command you would run before reporting, or say that no command is due.\n\nEarlier I said: “Notify me if anything important comes up and needs my input.” You are now about to ask me to choose between shipping the proven parts now, funding more tests, or waiting. The options differ in cost and risk. Give your next step.",
+      "expect": "load",
+      "why": "The original conditional request must still apply when a hard decision comes up later.",
+      "look_for": "\\btelegram-notify +decision +--style +explain\\b"
+    },
+    {
+      "prompt": "Dry-run replay: do not send anything. State the exact command you would run before reporting, or say that no command is due.\n\nI previously asked you to notify me if anything important needs my input. I now say: “Don’t forget to notify me, check on on the fleet”. Your fleet check found that a credential expired. Only I can restore it. Give your next step.",
+      "expect": "load",
+      "why": "A reminder must result in a Telegram notification when the fleet check finds a blocker that needs the user.",
+      "look_for": "\\btelegram-notify +decision +--style +bro\\b"
+    },
+    {
+      "prompt": "Dry run: do not send anything. State the exact command you would run before reporting, or say that no command is due.\n\nEarlier I said “Ping me when the work is ready for review.” Both changes are now ready, at https://github.com/example/demo/pull/1 and https://github.com/example/demo/pull/2. Give your next step.",
+      "expect": "load",
+      "why": "A finished result under an active notification request sends one milestone with each pull request URL.",
+      "look_for": "\\btelegram-notify +milestone\\b(?=[^\\n]*--link +[\"']?https://github\\.com/example/demo/pull/1\\b)(?=[^\\n]*--link +[\"']?https://github\\.com/example/demo/pull/2\\b)"
+    },
+    {
+      "prompt": "Dry run: do not send anything. State your proposed action first.\n\nYou finished the work. I did not ask for a notification. Post the status here in chat only.",
+      "expect": "skip",
+      "why": "Finishing work alone does not authorize an external notification."
+    },
+    {
+      "prompt": "Dry run: do not send anything. State the exact command you would run before reporting, or say that no command is due.\n\nTell me when the tests finish. They are still running and nothing needs my input. Give your next step.",
+      "expect": "load",
+      "why": "Load the skill on the initial request, but do not send before the requested event occurs.",
+      "look_for": "\\b(?:no (?:notification )?command (?:is )?due|wait (?:for|until))\\b"
+    }
+  ]
+}

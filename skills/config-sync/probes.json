@@ -1,0 +1,19 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "I just edited modules/agents.nix and home/.config/tmux/tmux.conf in ~/configs. Validate and sync the changes.",
+      "why": "Validating and syncing intentional edits under ~/configs must load config-sync."
+    },
+    {
+      "expect": "load",
+      "prompt": "I updated a script under ~/configs/home/.local/bin/ and its docs. What checks and commit steps should I run?",
+      "why": "Non-editor changes under ~/configs must also load config-sync."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Update the webpack.config.js file in my React app to enable source maps.",
+      "why": "App config outside ~/configs must not load config-sync."
+    }
+  ]
+}

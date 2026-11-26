@@ -18,8 +18,9 @@ def bump_patch(text):
 
 
 def git(cwd, *args):
+    env = {**os.environ, "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_CONFIG_SYSTEM": "/dev/null"}
     subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@example.com", *args],
-                   cwd=cwd, check=True, capture_output=True)
+                   cwd=cwd, env=env, check=True, capture_output=True)
 
 
 class CatalogFixture(unittest.TestCase):

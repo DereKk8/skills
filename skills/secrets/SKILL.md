@@ -6,76 +6,28 @@ description: >
   configured HTTP services. Routes general builders and project builders and
   testers through Agent Vault without exposing credential values.
 ---
-Skill version: 4.0.0
+Skill version: 4.0.1
 
 # Secrets
 
-Keep API credentials inside Agent Vault. Let `agent-access` start the selected
-profile and proxy requests, so agents and child tools receive placeholders
-instead of real API keys. The public connection settings are in
-`~/.config/agent-access/config.json`; `~/configs/docs/agent-access.md` owns the
-full startup and readiness contract.
+Keep outbound HTTP API credentials inside Agent Vault. `agent-access` starts the selected profile and proxies requests with placeholder keys; public profile settings live in `~/.config/agent-access/config.json` and the full startup/readiness contract lives in `~/configs/docs/agent-access.md`.
 
-General-purpose builders use the `coding` profile. Project builders and testers
-use their project's profile: read the agent contract in
-`~/configs/docs/agent-access.md` before you choose one, because it names the
-profile each project uses. Before a new session, run
-`agent-access doctor <profile>` and then
-`agent-access run <profile> -- <command>`. The `coding` profile currently uses
-default readiness checks and does not support a selected-services check. For a
-project profile, select only configured services the task needs, such as
-`notion`; service selection limits readiness checks, not the profile's
-permissions. If `AGENT_ACCESS_PROFILE` is already
-set, use the inherited proxy, certificate, and placeholder environment without
-starting another session. Invoke the tool directly in that environment. Do not
-run doctor or retrieve startup credentials inside the launched agent. Stop if
-the public profile lacks a required service or lists that service as pending.
+## Profile selection and startup
+- **General-purpose builders:** use `coding` (default readiness checks only; `--services` is not supported on `coding`).
+- **Project builders and testers:** read `~/configs/docs/agent-access.md` for the project's profile. Pass `--services <svc>` to check only required services (limits readiness checks, not permissions).
+- **New session:** run `agent-access doctor <profile>`, then `agent-access run <profile> -- <command>`.
+  ```sh
+  agent-access doctor coding && agent-access run coding -- gh-axi api user
+  agent-access doctor --services notion <project-profile> && agent-access run --services notion <project-profile> -- notion-axi whoami
+  ```
+- **Inherited session:** when `AGENT_ACCESS_PROFILE` is already set, invoke the target tool directly in the inherited proxy, certificate, and placeholder environment. Do not run `doctor`, retrieve startup credentials, or start another session. Stop if the public profile lacks a required service or marks it pending.
 
-For example, a general builder can use the GitHub tool through `coding`:
+## Missing keys, failures, and new services
+- Stop when `doctor` fails, exits 78, names a missing key, or marks a service pending its authenticated smoke test. Never fetch a raw key directly, alter readiness results, switch credential paths, or claim an unconfigured project profile exists.
+- Check a verify skill's `secrets.json` with `agent-access doctor <profile> --needs <file>`. Request missing keys once via `agent-access request <profile> --needs <file> --task <issue URL>` (or `--key`, `--host`, `--description`, `--obtain` for an undeclared key; posts to Discord once), then stop the work needing the key.
+- Helper-managed permanent sessions leave startup credentials to the helper (never retrieve, print, copy, persist, or revoke them). A new API service needs an Agent Vault variable, service definition, and authenticated smoke test before readiness passes.
 
-```sh
-agent-access doctor coding
-agent-access run coding -- gh-axi api user
-```
-
-A project tester who needs only Notion can check that service and start the
-Notion CLI through the project's profile:
-
-```sh
-agent-access doctor --services notion <project-profile>
-agent-access run --services notion <project-profile> -- notion-axi whoami
-```
-
-Stop when doctor fails, reports exit 78, names a missing key, or reports a
-service pending its authenticated smoke test. Do not fetch a key directly,
-change the readiness result, or switch to another credential path. When a
-project's verify skill keeps a `secrets.json`, check it with
-`agent-access doctor <profile> --needs <file>`. Ask the owner for each missing
-key with `agent-access request <profile> --needs <file> --task <issue URL>`,
-or with `--key`, `--host`, `--description`, and `--obtain` for one key that no
-file declares. It posts one request to the owner's Discord channel and never
-asks twice. Then stop the work that needs the key. In
-particular, when a project has no configured profile, do not claim one exists
-or fetch that project's key directly.
-
-Use this route only for configured outbound HTTP APIs. Keep application,
-database, storage, machine, and Git transport credentials in their existing
-project or tool contracts. Use SSH for Git transport. A project's own
-application-configuration command keeps its separate contract; it does not use
-the HTTP proxy for database or storage access.
-
-A profile that reuses a helper-managed permanent session leaves that session's
-startup credential to the helper. The helper does not mint or revoke it.
-Never retrieve, print, copy, persist, or revoke that credential manually. A new
-API service needs its Agent Vault variable and service definition plus an
-authenticated smoke test before readiness can pass.
-
-Never print, log, persist, or pass a real secret as an argument. Do not put
-secrets in chat, reports, files, environment dumps, HTTP header logs, verbose
-curl output, Docker inspection output, or worker prompts. Never ask the user to
-paste a secret into chat or send one to a subagent. Rotate credentials in Agent
-Vault. Do not restore old token files, shell-startup fetchers, or the standalone
-`agent-proxy` path.
-
-`notion-workspaces` owns Notion workspace selection. This skill owns API
-credential access and handling.
+## Boundaries and zero-leak rules
+- Use Agent Vault only for configured outbound HTTP APIs. Keep app, database, storage, machine, and Git transport credentials in their own contracts (use SSH for Git; app-config commands do not use the HTTP proxy).
+- Never print, log, persist, or pass a real secret (chat, reports, files, env dumps, headers, verbose curl, Docker inspect, worker prompts), and never ask the user to paste one or send one to a subagent. Rotate credentials in Agent Vault; never restore old token files, shell-startup fetchers, or standalone `agent-proxy`.
+- `notion-workspaces` owns Notion workspace selection; this skill owns API credential access and handling.

@@ -1,0 +1,19 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "Check our remaining AI provider quota and reset times on this machine before I start a large batch.",
+      "why": "Checking remaining quota and reset times before spending must load quota-axi."
+    },
+    {
+      "expect": "load",
+      "prompt": "Compare local provider headroom and pace across signed-in models.",
+      "why": "Comparing headroom and pace must load quota-axi."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Add a rate limiter middleware to my Express HTTP server.",
+      "why": "Implementing HTTP rate limiting in app code must not load quota-axi."
+    }
+  ]
+}

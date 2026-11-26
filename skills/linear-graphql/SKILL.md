@@ -1,8 +1,12 @@
 ---
 name: linear-graphql
-description: Operate Linear through its GraphQL API using Agent Vault access, verified reads and mutations, and polished, bloat-free UI presentation patterns. Use for Linear issues, projects, milestones, project updates, documents, workflow states, native GitHub PR links, schema discovery, API error handling, and crafting clean, aesthetic Linear pages. Owns reusable API mechanics and presentation standards, not a board's planning or reporting policy.
+description: >-
+  Operate Linear via its GraphQL API through Agent Vault with verified
+  reads/mutations and native UI presentation. Use for Linear issues, projects,
+  milestones, updates, docs, workflow states, GitHub PR links, or schema
+  queries. Owns API mechanics and layout, not board policy.
 ---
-Skill version: 3.0.1
+Skill version: 3.0.2
 
 # Linear GraphQL
 Direct GraphQL is primary; MCP only as fallback when API cannot do it and an authorized connection exists. Never require or reinstall an MCP server for it. Owns transport + presentation mechanics, not board policy. Refs: `references/access.md` (Agent Vault access through `secrets`, redirect/zero-leak rules, stdlib template), `references/operations.md` (bounded queries, issues/relations/PR links/updates/milestones/docs/comments), `references/presentation.md` (native UI mapping, `+++` drawers, archetypes).

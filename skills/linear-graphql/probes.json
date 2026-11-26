@@ -1,0 +1,19 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "Create a Linear issue under our backend project with a milestone, priority, and a linked GitHub PR.",
+      "why": "Linear issue creation with native milestone and GitHub PR link must load linear-graphql."
+    },
+    {
+      "expect": "load",
+      "prompt": "Query Linear workflow states and post a project update using the GraphQL API.",
+      "why": "Linear GraphQL reads and project updates must load linear-graphql."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Write a linear regression solver in Python using least squares.",
+      "why": "Math 'linear' must not load linear-graphql."
+    }
+  ]
+}

@@ -2,71 +2,32 @@
 name: hunk-notes
 description: Store Hunk agent notes on your own committed diff so the human reviewer sees why each change exists. Use before you report a branch, PR, or change as done or ready for review in a git repo. For driving a live Hunk window, use hunk-review instead.
 ---
-Skill version: 1.0.1
+Skill version: 1.0.2
 
 # Hunk notes
 
-The reviewer opens a checkout with `hunk-branch` (tmux `prefix + G`). `hunk-branch` diffs the working tree against its fork point from `origin/HEAD`. It shows only the notes stored on `HEAD` under the git-notes ref `hunk`. Notes on an older commit, in a file, or in chat do not appear.
+Reviewers open branches with `hunk-branch` (tmux `prefix + G`), which diffs the working tree against its `origin/HEAD` fork point and reads only git notes stored on `HEAD` under ref `hunk`. Notes on older commits, in files, or in chat do not appear.
 
-## When
-
-Write the notes after your last commit and before you report done or ready. Git notes stay on the commit they were written for. So if you later commit, amend, or rebase, write the notes again.
+Write notes after your final commit and before reporting done or ready. Rewrite them after any later commit, amend, or rebase.
 
 ## Steps
-
-1. Print the diff the reviewer sees:
-
-   ```bash
-   base=$(git merge-base HEAD origin/HEAD)
-   git diff -U0 "$base" HEAD
-   ```
-
-2. Choose the hunks that the code alone does not explain: intent, a non-obvious decision, a risk, or an open follow-up. Skip mechanical hunks such as renames, formatting, and generated files.
-
-3. Anchor each note to its hunk header `@@ -a,b +c,d @@`:
-   - If the hunk adds lines (`d` > 0), use `"newRange": [c, c+d-1]`.
-   - If the hunk only deletes lines (`d` = 0), use `"oldRange": [a, a+b-1]`.
-   - Hunk does not show a note whose range is outside every hunk.
-
-4. Write the notes in Hunk's `--agent-context` JSON format to a temporary file, never to a tracked path. Then store the file on `HEAD`:
-
+1. Inspect the reviewer diff: `base=$(git merge-base HEAD origin/HEAD) && git diff -U0 "$base" HEAD`.
+2. Annotate only hunks code alone does not explain (intent, non-obvious decisions, risks, open follow-ups); skip mechanical hunks (renames, formatting, generated files).
+3. Anchor each annotation to a hunk header `@@ -a,b +c,d @@`: use `"newRange": [c, c+d-1]` when `d > 0`, or `"oldRange": [a, a+b-1]` when `d = 0`. Out-of-hunk ranges are ignored.
+4. Write `--agent-context` JSON to a temp file (never a tracked path), validate, attach, and verify:
    ```bash
    f=$(mktemp --suffix=.json)
-   # write the JSON to "$f"
-   python3 -m json.tool "$f" >/dev/null && git notes --ref=hunk add -f -F "$f" HEAD
-   git notes --ref=hunk show HEAD   # must print your JSON
+   python3 -m json.tool "$f" >/dev/null && git notes --ref=hunk add -f -F "$f" HEAD && git notes --ref=hunk show HEAD
    ```
 
-Format, with one file entry per changed file that needs context:
-
+Schema (one entry per file needing context):
 ```json
-{
-  "version": 1,
-  "summary": "Retries failed uploads three times before the job reports an error.",
-  "files": [
-    {
-      "path": "src/upload.ts",
-      "summary": "Owns the retry loop for one upload.",
-      "annotations": [
-        {
-          "newRange": [41, 58],
-          "summary": "uploadFile now retries a failed request up to three times with a 2-second wait.",
-          "rationale": "The storage API drops about 1% of requests under load, so one failure no longer fails the whole job. The new test in test/upload.test.ts proves the retry count. A real outage longer than 6 seconds is not tested.",
-          "author": "fm/upload-retry"
-        }
-      ]
-    }
-  ]
-}
+{"version": 1, "summary": "<one sentence>", "files": [{"path": "src/a.ts", "summary": "<one sentence>", "annotations": [{"newRange": [41, 58], "summary": "<=25 words: actor + action>", "rationale": "<cause/consequence + verified command + unverified gaps>", "author": "<branch or agent>"}]}]}
 ```
 
 ## Writing rules
-
-The "Assistant response clarity" section of your global instructions owns the style. Apply it to every note as follows:
-
-- Top-level `summary`: one sentence that says what the change does.
-- File `summary`: one sentence that says what this file does in the change.
-- Annotation `summary`: one sentence of at most 25 words. Name the actor (function, script, rule, or config key) and its action.
-- `rationale`: state the cause and the consequence with explicit words such as "because", "so", and "if". Then state what you verified, with the command or test, and what remains unverified.
-- Notes are not chat. Do not address the reader, so never write a form of address such as "you", greetings, or progress talk.
-- Set `author` to your branch name, or to your agent name when you have no branch.
+Follow the global clarity rules:
+- Top-level and file `summary`: one sentence stating what the change or file does.
+- Annotation `summary`: one sentence of at most 25 words naming the actor (function, script, rule, or config key) and its action.
+- `rationale`: state cause and consequence (`because`, `so`, `if`), what was verified (exact command or test), and what remains unverified.
+- Never address the reader (`you`, greetings, progress talk). Set `author` to the branch name (or agent name when detached).

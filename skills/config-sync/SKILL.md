@@ -1,8 +1,12 @@
 ---
 name: config-sync
-description: Keep the personal ~/configs repository validated, documented, and synchronized after any intentional edit under ~/configs. Use for Home Manager/Nix, shell configuration, agent runtime hooks, rules, and config, Git and developer tooling, scripts, Neovim, tmux, repository docs, and future configuration areas—not only editor or terminal changes.
+description: >-
+  Validate, document, and sync intentional edits under ~/configs. Use after
+  changing Home Manager/Nix, shells, agent hooks/rules/config, Git/CLI tooling,
+  scripts, Neovim, tmux, or docs in ~/configs - not only editor or terminal
+  files.
 ---
-Skill version: 1.0.1
+Skill version: 1.0.2
 
 # Config sync
 Keep the `~/configs` repository safe, reviewable, synchronized; never absorb unrelated work.

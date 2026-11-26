@@ -1,6 +1,9 @@
 ---
 name: notion-axi
-description: "Operate Notion through the notion-axi CLI — search; read, create, update, archive, and move pages; create and edit databases and query/set typed row properties; manage blocks, comments, and file uploads; or call any REST endpoint directly. Use whenever a task touches Notion: finding pages or databases, reading or editing content, working with database rows, comments, files, or anything else in a Notion workspace."
+description: >-
+  Operate Notion via the notion-axi CLI: search, read/create/update/archive/move
+  pages, query or edit databases and rows, manage blocks, comments, and files,
+  or call REST endpoints. Use whenever a task reads or edits anything in Notion.
 user-invocable: false
 author: Maxime Bourmaud (maximebrmd)
 metadata:
@@ -8,7 +11,7 @@ metadata:
     tags: [notion, notes, docs, databases, knowledge-base]
     category: productivity
 ---
-Skill version: 2.1.0
+Skill version: 2.1.1
 
 # notion-axi
 Ergonomic Notion CLI. Prefer over MCP/raw API. Use the installed `notion-axi`

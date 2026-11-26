@@ -1,0 +1,19 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "In the already-selected Notion workspace, search Notion for our release checklist page and append a section using the CLI.",
+      "why": "Searching and editing a Notion page via CLI must load notion-axi."
+    },
+    {
+      "expect": "load",
+      "prompt": "In the already-selected Notion workspace, query a Notion database for rows where Status is Todo and add a comment on the first row.",
+      "why": "Querying a Notion database and commenting must load notion-axi."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Write a Markdown table summarizing our weekly sprint metrics in a local file.",
+      "why": "Local markdown editing with no Notion task must not load notion-axi."
+    }
+  ]
+}

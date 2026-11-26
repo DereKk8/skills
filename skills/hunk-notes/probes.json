@@ -1,0 +1,21 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "I just made my final commit on my branch and am ready for review. What exact git command and JSON schema should I use to attach Hunk agent notes to HEAD? Do not run it.",
+      "look_for": "git notes --ref=hunk",
+      "why": "Attaching Hunk agent notes on HEAD must load hunk-notes and state the git notes --ref=hunk command."
+    },
+    {
+      "expect": "load",
+      "prompt": "How should I anchor and attach Hunk review notes for a deletion-only hunk on my branch before opening the PR?",
+      "look_for": "oldRange",
+      "why": "Deletion-only hunk anchor rule must stay preserved after body cut."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Open the live Hunk window and jump to file 3 hunk 2.",
+      "why": "Driving a live Hunk window belongs to hunk-review, not hunk-notes."
+    }
+  ]
+}

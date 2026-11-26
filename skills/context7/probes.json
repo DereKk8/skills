@@ -1,0 +1,19 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "How do I configure dynamic route segments and revalidateTag in Next.js App Router?",
+      "why": "API syntax and configuration question for a well-known framework must load context7."
+    },
+    {
+      "expect": "load",
+      "prompt": "I am migrating a Prisma schema from v5 to v6 and hitting a config option error. What changed?",
+      "why": "Version migration and library-specific debugging must load context7."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Refactor this pure Python function to avoid mutating the input list.",
+      "why": "Plain refactoring without a specific library question must not load context7."
+    }
+  ]
+}

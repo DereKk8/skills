@@ -1,0 +1,21 @@
+{
+  "probes": [
+    {
+      "expect": "load",
+      "prompt": "Where are my global agent skills stored on this machine, how are they linked into runtimes, and how should I verify the links?",
+      "look_for": "projects/skills.*\\.agents/skills|readlink",
+      "why": "Global skill storage, symlink map, and health check must stay intact after body cut."
+    },
+    {
+      "expect": "load",
+      "prompt": "I want to add a project-specific skill and also reference a private host from a global skill. Where do each belong?",
+      "look_for": "project-skills.*overlays|overlays/",
+      "why": "Project-skills and private overlays rule must stay intact after body cut."
+    },
+    {
+      "expect": "skip",
+      "prompt": "Sync my git fork with upstream main by rebasing.",
+      "why": "Generic git syncing must not load global-skill-sync."
+    }
+  ]
+}

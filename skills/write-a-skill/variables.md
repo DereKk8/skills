@@ -84,6 +84,7 @@ The number of separate things the text asks the agent to do. Words are not the m
 - **Evidence:**
   - Size had no effect across a 9.7x range, r = 0.046 (study, section 7).
   - 2026-10-07 X5 G6: after "keep imports free of startup work" was cut, the model wrote a clean import 2 of 8 times against 4 of 4 with the rule (`~/evals/skill-rewrites-x5/README.md`).
+  - 2026-11-26 step-7 body cuts: tightening `secrets` (73->25 body lines), `hunk-notes` (68->29), and `global-skill-sync` (49->17) while keeping every obligation held all probes: `secrets` 4/4->4/4, `hunk-notes` 3/3->3/3, `global-skill-sync` 3/3->3/3 (`~/.local/state/skill-evidence/probes/{secrets,hunk-notes,global-skill-sync}/20261126T*`).
 
 ### conflicts
 - **In the text:** the same rule in two files, or two files that disagree.
@@ -108,6 +109,7 @@ The description, plus a load path that works in every runtime.
   - 2026-10-08 probes, Opus 5.5: a description that names the requests in Derek's words ("remove a stale part", "check a skill after its tool changed") and says to load beside global-skill-sync loaded on 8 of 9 runs of three load probes, against 1 of 9 for the old description (`~/.local/state/skill-evidence/probes/write-a-skill/20261008T133647Z-after-x3.json`, `20261008T133722Z-before-x3.json`). Three near-topic skip probes stayed out under both texts in single runs (`20261008T133601Z-after.json`, `20261008T133615Z-before.json`).
   - 2026-10-13: explicit Agent Vault profile and inherited-connection triggers passed 5/5 Claude CLI probes versus 4/5 before. The project-profile probe passed 3/3 repeats versus 0/3 before (`~/.local/state/skill-evidence/agent-vault-access-2026-10-12.json`). The inherited probe asserts the literal next command instead of redundant skill loading for a global yes/no rule.
   - 2026-10-20: project names left the secrets and notion-workspaces text for a private overlay and the readiness doc. Loading held: secrets passed 4/4 generic and 3/3 project probes, its project-profile probe 3/3 repeats, and notion-workspaces loaded on a project request 3/3 before and 3/3 after (`~/.local/state/skill-evidence/probes/{secrets,notion-workspaces}/20261020T*`). A notion probe that asks which profile to use loaded secrets instead on 2 of 3 runs, with the right profile in all 3 replies.
+  - 2026-11-26 step-7 description cuts: shortening 6 global skill descriptions (context7 874->261, quota-axi 539->239, write-a-skill 520->291, linear-graphql 441->274, notion-axi 416->234, config-sync 344->232) kept all load/skip probes passing: 3/3->3/3 on context7, quota-axi, linear-graphql, notion-axi, config-sync, and 7/9->8/9 (4/6->4/6 on 3x flip reruns) on write-a-skill (`~/.local/state/skill-evidence/probes/*/20261126T*`).
 
 ### output contract position
 - **In the text:** a short, headed checklist of the reply's shape, placed last.
